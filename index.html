@@ -5,53 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>山河大学</title>
   <style>
-    /* CSS样式 */
-
-    /* 小花掉落效果 */
-    @keyframes flowerAnimation {
-      0% {
-        transform: translateY(-100vh) rotate(0deg);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 1;
-      }
-    }
-
-    /* 页面布局样式 */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
     body {
       font-family: Arial, sans-serif;
       line-height: 1.5;
     }
-
     header {
       background-color: white;
       padding: 10px;
       display: flex;
       justify-content: center;
     }
-
+    header img {
+      height: 40px;
+      margin-right: 10px;
+    }
     nav ul {
       list-style-type: none;
       margin: 0;
       padding: 0;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 10px;
     }
-
     nav li {
       margin-right: 20px;
     }
-
     nav a {
       text-decoration: none;
       color: black;
@@ -59,60 +41,48 @@
       font-size: 18px;
       transition: color 0.3s ease-in-out;
     }
-
     nav a:hover {
       color: yellow;
     }
-
     main {
       padding: 20px;
     }
-
     section {
       margin-bottom: 20px;
     }
-
     h1, h2 {
       margin-bottom: 10px;
     }
-
     ul {
       padding-left: 20px;
     }
-
     footer {
       background-color: #f2f2f2;
       padding: 10px;
       text-align: center;
     }
-
     .slideshow-container {
       position: relative;
       margin-bottom: 20px;
     }
-
     .slideshow {
       width: 100%;
       height: auto;
       overflow: hidden;
     }
-
     .slideshow img {
       width: 100%;
       height: auto;
       display: none;
     }
-
     .slideshow img.active {
       display: block;
     }
-
     .slideshow-nav {
       display: flex;
       justify-content: center;
       margin-top: 10px;
     }
-
     .slideshow-nav button {
       background-color: transparent;
       border: none;
@@ -121,13 +91,10 @@
       cursor: pointer;
       transition: background-color 0.3s ease-in-out;
     }
-
     .slideshow-nav button.active {
       font-weight: bold;
       background-color: yellow;
     }
-
-    /* 文字淡入淡出动画效果 */
     @keyframes fadeInOut {
       0% {
         opacity: 0;
@@ -142,92 +109,140 @@
         opacity: 0;
       }
     }
-
     .slideshow img {
       animation: fadeInOut 9s linear infinite;
     }
-
     .intro {
+      text-align: center;
       margin-bottom: 20px;
     }
-
-    /* 小花掉落样式 */
-    .flower {
-      position: absolute;
-      top: -20px;
-      left: calc(50% - 10px);
-      font-size: 20px;
-      animation: flowerAnimation 3s infinite;
+    .intro h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .intro p {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 10px;
     }
   </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var slides = Array.from(document.querySelectorAll('.slideshow img'));
+      var navButtons = Array.from(document.querySelectorAll('.slideshow-nav button'));
+
+      function showSlide(index) {
+        slides.forEach(function(slide) {
+          slide.classList.remove('active');
+        });
+        navButtons.forEach(function(button) {
+          button.classList.remove('active');
+        });
+        slides[index].classList.add('active');
+        navButtons[index].classList.add('active');
+      }
+
+      function nextSlide() {
+        var currentIndex = slides.findIndex(function(slide) {
+          return slide.classList.contains('active');
+        });
+        var nextIndex = (currentIndex + 1) % slides.length;
+        showSlide(nextIndex);
+      }
+
+      function previousSlide() {
+        var currentIndex = slides.findIndex(function(slide) {
+          return slide.classList.contains('active');
+        });
+        var previousIndex = (currentIndex - 1 + slides.length) % slides.length;
+        showSlide(previousIndex);
+      }
+
+      navButtons.forEach(function(button, index) {
+        button.addEventListener('click', function() {
+          showSlide(index);
+        });
+      });
+
+      setInterval(nextSlide, 3000);
+    });
+  </script>
 </head>
 <body>
   <header>
     <nav>
+      <img src="https://example.com/school-logo.png" alt="School Logo">
       <ul>
         <li><a href="#">首页</a></li>
         <li><a href="#">关于我们</a></li>
-        <li><a href="#">课程</a></li>
+        <li><a href="#">学术专业</a></li>
         <li><a href="#">招生信息</a></li>
+        <li><a href="#">校园生活</a></li>
         <li><a href="#">联系我们</a></li>
       </ul>
     </nav>
   </header>
 
-  <main>
-    <div class="slideshow-container">
-      <div class="slideshow">
-        <img class="active" src="image1.jpg" alt="Image 1">
-        <img src="image2.jpg" alt="Image 2">
-        <img src="image3.jpg" alt="Image 3">
-      </div>
-      <div class="slideshow-nav">
-        <button class="active"></button>
-        <button></button>
-        <button></button>
-      </div>
+  <div class="slideshow-container">
+    <div class="slideshow">
+      <img src="https://i.postimg.cc/ZK8y4tfg/85934af14668407191be5f05c729190e.jpg" class="active">
+      <img src="https://i.postimg.cc/R0y0wXsK/7594f248e80bec72.jpg">
+      <img src="https://i.postimg.cc/jdcdMs3s/e127ce7d96814754b39c5f4145fa36d7.png">
     </div>
+    <div class="slideshow-nav">
+      <button class="active"></button>
+      <button></button>
+      <button></button>
+    </div>
+  </div>
 
+  <main>
     <section>
       <div class="intro">
-        <h2>关于我们</h2>
-        <p>山河大学是一所以培养优秀人才为目标的高等教育机构。</p>
+        <h2>.关于我们</h2>
+        <p>山河大学创立于2023年6月28日，是一所致力于培养卓越人才的高等学府。</p>
+        <p>我们的校训是“博学，求知”，我们秉承着追求知识的精神，培养学生的综合素养和专业技能。</p>
+        <p>我们的目标是在三年内超越清华大学，在五年内赶超北京大学，成为全球一流的高等学府。</p>
       </div>
-      <h2>课程</h2>
+    </section>
+
+    <section>
+      <h1>学术专业</h1>
       <ul>
-        <li>计算机科学</li>
-        <li>人文学</li>
-        <li>商务管理</li>
+        <li>计算机科学与技术</li>
+        <li>电子工程</li>
+        <li>化学工程</li>
+        <li>生物医学工程</li>
+        <li>机械工程</li>
+      </ul>
+    </section>
+
+    <section>
+      <h1>招生信息</h1>
+      <p>欢迎各位有志青年加入山河大学的大家庭！我们提供全日制本科和研究生课程，拥有优秀的师资团队和先进的教学设施。</p>
+      <p>请访问我们的招生页面以获取更多详细信息。</p>
+    </section>
+
+    <section>
+      <h1>校园生活</h1>
+      <p>山河大学提供丰富多样的校园生活，包括学生社团、体育活动、文化节等。我们鼓励学生全面发展，积极参与各种活动。</p>
+      <p>在山河大学，你将度过难忘的大学时光，并结识一生的朋友。</p>
+    </section>
+
+    <section>
+      <h1>联系我们</h1>
+      <p>如果您有任何疑问或需要进一步了解山河大学，请随时与我们联系。我们的联系方式如下：</p>
+      <ul>
+        <li>电话：123-456-7890</li>
+        <li>电子邮件：info@example.com</li>
+        <li>地址：123 Main Street, City, Country</li>
       </ul>
     </section>
   </main>
 
   <footer>
-    <p>版权所有 &copy; 2023 山河大学</p>
+    &copy; 2023 山河大学. All rights reserved. | Designed by Your Name
   </footer>
-
-  <script>
-    // JavaScript代码
-
-    // 创建小花掉落
-    function createFlower() {
-      const flowerChars = ['✿', '❀', '❁'];
-      const flower = document.createElement('span');
-      flower.classList.add('flower');
-      flower.innerText = flowerChars[Math.floor(Math.random() * flowerChars.length)];
-      flower.style.left = Math.random() * 100 + 'vw';
-      document.body.appendChild(flower);
-
-      // 小花掉落结束后移除元素
-      flower.addEventListener('animationend', () => {
-        flower.remove();
-      });
-    }
-
-    // 监听页面滑动事件
-    window.addEventListener('scroll', () => {
-      createFlower();
-    });
-  </script>
 </body>
 </html>
