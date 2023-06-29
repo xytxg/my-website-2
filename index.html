@@ -3,46 +3,70 @@
 <head>
     <title>斌祥繁大学官网</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+        
         body {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            line-height: 1.6;
         }
+        
         #navbar {
             background-color: #ffffff;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
         }
+        
         #navbar .logo img {
-            height: 50px; /* 调整校徽logo的高度 */
+            height: 50px;
         }
+        
         #navbar ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
         }
+        
         #navbar ul li {
             display: inline-block;
             margin-left: 10px;
         }
+        
         #welcome-section {
             text-align: center;
             padding: 50px;
             background-color: #f9f9f9;
         }
+        
         #slideshow {
             position: relative;
             width: 100%;
             height: 400px;
             overflow: hidden;
         }
+        
         #slideshow img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
+        
+        #slideshow img.active {
+            opacity: 1;
+        }
+        
         #introduction {
             padding: 50px;
             background-color: #ffffff;
@@ -50,6 +74,7 @@
             justify-content: center;
             align-items: center;
         }
+        
         .rectangle {
             width: 300px;
             height: 200px;
@@ -61,32 +86,41 @@
             text-align: center;
             padding: 20px;
         }
+        
         .rectangle:hover {
-            filter: blur(5px);
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
+        
         #about-section {
             background-color: #f9f9f9;
             padding: 50px;
             text-align: center;
         }
+        
         #about-section h2 {
             margin-bottom: 20px;
         }
+        
         #major-section {
             background-color: #ffffff;
             padding: 50px;
             text-align: center;
         }
+        
         #major-section h2 {
             margin-bottom: 20px;
         }
+        
         #major-section ul {
             list-style-type: none;
             padding: 0;
         }
+        
         #major-section ul li {
             margin-bottom: 10px;
         }
+        
         #footer {
             background-color: #f9f9f9;
             padding: 20px;
@@ -97,7 +131,7 @@
         // 自动轮播图
         var slideIndex = 0;
         carousel();
-
+        
         function carousel() {
             var slides = document.querySelectorAll("#slideshow img");
             for (var i = 0; i < slides.length; i++) {
@@ -110,12 +144,19 @@
             slides[slideIndex - 1].style.display = "block";
             setTimeout(carousel, 2000); // 每2秒切换一张图片
         }
+        
+        // 导航栏菜单响应式处理
+        var menuBtn = document.getElementById("menu-btn");
+        var navbarUl = document.querySelector("#navbar ul");
+        menuBtn.addEventListener("click", function () {
+            navbarUl.classList.toggle("show");
+        });
     </script>
 </head>
 <body>
     <div id="navbar">
         <div class="logo">
-            <img src="logo.png" alt="https://i.postimg.cc/rz2pMgPb/Screenshot-2023-06-29-22-58-40-99-40deb401b9ffe8e1df2f1cc5ba480b12.jpg">
+            <img src="https://i.postimg.cc/rz2pMgPb/Screenshot-2023-06-29-22-58-40-99-40deb401b9ffe8e1df2f1cc5ba480b12.jpg" alt="校徽logo">
         </div>
         <ul>
             <li><a href="#">首页</a></li>
@@ -132,45 +173,44 @@
     </div>
     
     <div id="slideshow">
-        <img src="https://i.postimg.cc/QNQkwMn6/467d625cc05247259079a97424ee0a6f-th.jpg" alt="Slide 1">
-        <img src="https://i.postimg.cc/MTyRCstc/a0c30741edd26cd2.jpg" alt="Slide 2">
-        <img src="https://i.postimg.cc/R0tntPkP/626f7b3b9c6971e4.jpg" alt="Slide 3">
+        <img src="https://i.postimg.cc/ZK8y4tfg/85934af14668407191be5f05c729190e.jpg" alt="Slide 1" class="active">
+        <img src="https://i.postimg.cc/R0y0wXsK/7594f248e80bec72.jpg" alt="Slide 2">
+        <img src="https://i.postimg.cc/jdcdMs3s/e127ce7d96814754b39c5f4145fa36d7.png" alt="Slide 3">
     </div>
     
     <div id="introduction">
         <div class="rectangle">
             <h3>学校概况</h3>
-            <p>斌祥繁大学是一由斌祥繁于2023年6月29日创立的力于培养优秀人才的综合性大学。</p>
+            <p>斌祥繁大学是一所由斌祥繁大学于2023年6月29日创立的致力于培养优秀人才的综合性大学。</p>
         </div>
         <div class="rectangle">
             <h3>校园环境</h3>
             <p>斌祥繁大学拥有美丽宜人的校园环境，为学生提供良好的学习氛围。</p>
         </div>
         <div class="rectangle">
-            <h3>教学质        <h3>教学质量</h3>
-        <p>斌祥繁大学注重教学质量，致力于提供优秀的教育资源和师资力量。</p>
+            <h3>教学质量</h3>
+            <p>斌祥繁大学注重教学质量，致力于提供优秀的教育资源和师资力量。</p>
+        </div>
     </div>
-</div>
-
-<div id="about-section">
-    <h2>关于我们</h2>
-    <p>斌祥繁大学成立于2023年6月29日，是一所富有创新精神和国际视野的高等教育机构。我们致力于培养学生的综合素质和专业技能，为社会发展做出积极贡献。</p>
-</div>
-
-<div id="major-section">
-    <h2>专业</h2>
-    <ul>
-        <li>计算机科学与技术</li>
-        <li>工商管理</li>
-        <li>生物医学工程</li>
-        <li>化学工程</li>
-        <!-- 添加更多专业 -->
-    </ul>
-</div>
-
-<div id="footer">
-    <p>版权©️归斌祥繁大学所有</p>
-</div>
+    
+    <div id="about-section">
+        <h2>关于我们</h2>
+        <p>斌祥繁大学成立于2023年6月29日，是一所富有创新精神和国际视野的高等教育机构。我们致力于培养学生的综合素质和专业技能，为社会发展做出积极贡献。</p>
+    </div>
+    
+    <div id="major-section">
+        <h2>专业</h2>
+        <ul>
+            <li>计算机科学与技术</li>
+            <li>工商管理</li>
+            <li>生物医学工程</li>
+            <li>化学工程</li>
+            <!-- 添加更多专业 -->
+        </ul>
+    </div>
+    
+    <div id="footer">
+        <p>版权©️归斌祥繁大学所有</p>
+    </div>
 </body>
 </html>
-
