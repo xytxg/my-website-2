@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,30 +11,68 @@
       margin: 0;
       padding: 0;
     }
+
     body {
       font-family: Arial, sans-serif;
       line-height: 1.5;
+      overflow-x: hidden;
     }
+
     header {
       background-color: white;
       padding: 10px;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
+      align-items: center;
     }
+
     header img {
       height: 40px;
-      margin-right: 10px;
+      margin-right: auto;
+      margin-left: auto;
+      display: block;
     }
+
+    .nav-toggle {
+      background-color: transparent;
+      border: none;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background-color: black;
+      margin-bottom: 4px;
+    }
+
     nav ul {
       list-style-type: none;
       margin: 0;
       padding: 0;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-end;
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100vh;
+      background-color: white;
+      width: 0;
+      overflow: hidden;
+      transition: width 0.3s ease-in-out;
     }
+
+    nav ul.show {
+      width: 180px;
+    }
+
     nav li {
       margin-right: 20px;
     }
+
     nav a {
       text-decoration: none;
       color: black;
@@ -41,48 +80,42 @@
       font-size: 18px;
       transition: color 0.3s ease-in-out;
     }
+
     nav a:hover {
       color: yellow;
     }
+
     main {
       padding: 20px;
     }
-    section {
-      margin-bottom: 20px;
-    }
-    h1, h2 {
-      margin-bottom: 10px;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    footer {
-      background-color: #f2f2f2;
-      padding: 10px;
-      text-align: center;
-    }
+
     .slideshow-container {
       position: relative;
       margin-bottom: 20px;
     }
+
     .slideshow {
       width: 100%;
       height: auto;
       overflow: hidden;
     }
+
     .slideshow img {
       width: 100%;
       height: auto;
       display: none;
     }
+
     .slideshow img.active {
       display: block;
     }
+
     .slideshow-nav {
       display: flex;
       justify-content: center;
       margin-top: 10px;
     }
+
     .slideshow-nav button {
       background-color: transparent;
       border: none;
@@ -91,10 +124,12 @@
       cursor: pointer;
       transition: background-color 0.3s ease-in-out;
     }
+
     .slideshow-nav button.active {
       font-weight: bold;
       background-color: yellow;
     }
+
     @keyframes fadeInOut {
       0% {
         opacity: 0;
@@ -109,34 +144,101 @@
         opacity: 0;
       }
     }
+
     .slideshow img {
       animation: fadeInOut 9s linear infinite;
     }
+
     .intro {
       text-align: center;
       margin-bottom: 20px;
     }
+
     .intro h2 {
       font-size: 24px;
       margin-bottom: 10px;
       color: #333;
     }
+
     .intro p {
       font-size: 16px;
       color: #666;
       margin-bottom: 10px;
     }
+
+    .flower {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .flower span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      background-color: #ffcc00;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: drift 6s linear infinite;
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translate(0, 0);
+      }
+      25% {
+        transform: translate(20px, 50px);
+      }
+      50% {
+        transform: translate(40px, 100px);
+      }
+      75% {
+        transform: translate(60px, 50px);
+      }
+      100% {
+        transform: translate(80px, 0);
+      }
+    }
+
+    @media (min-width: 768px) {
+      header img {
+        margin-right: 0;
+      }
+
+      .nav-toggle {
+        display: none;
+      }
+
+      nav ul {
+        position: initial;
+        flex-direction: row;
+        height: auto;
+        width: auto;
+        background-color: transparent;
+        transition: none;
+        margin-left: auto;
+      }
+
+      nav li {
+        margin-right: 20px;
+      }
+    }
   </style>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       var slides = Array.from(document.querySelectorAll('.slideshow img'));
       var navButtons = Array.from(document.querySelectorAll('.slideshow-nav button'));
+      var navToggle = document.querySelector('.nav-toggle');
+      var navList = document.querySelector('nav ul');
 
       function showSlide(index) {
-        slides.forEach(function(slide) {
+        slides.forEach(function (slide) {
           slide.classList.remove('active');
         });
-        navButtons.forEach(function(button) {
+        navButtons.forEach(function (button) {
           button.classList.remove('active');
         });
         slides[index].classList.add('active');
@@ -144,7 +246,7 @@
       }
 
       function nextSlide() {
-        var currentIndex = slides.findIndex(function(slide) {
+        var currentIndex = slides.findIndex(function (slide) {
           return slide.classList.contains('active');
         });
         var nextIndex = (currentIndex + 1) % slides.length;
@@ -152,28 +254,46 @@
       }
 
       function previousSlide() {
-        var currentIndex = slides.findIndex(function(slide) {
+        var currentIndex = slides.findIndex(function (slide) {
           return slide.classList.contains('active');
         });
         var previousIndex = (currentIndex - 1 + slides.length) % slides.length;
         showSlide(previousIndex);
       }
 
-      navButtons.forEach(function(button, index) {
-        button.addEventListener('click', function() {
+      navButtons.forEach(function (button, index) {
+        button.addEventListener('click', function () {
           showSlide(index);
         });
       });
 
       setInterval(nextSlide, 3000);
+
+      navToggle.addEventListener('click', function () {
+        navList.classList.toggle('show');
+      });
+
+      var flowerContainer = document.querySelector('.flower');
+      var flowerCount = 20;
+      var flowerSize = 20;
+
+      for (var i = 0; i < flowerCount; i++) {
+        var flower = document.createElement('span');
+        flower.style.top = Math.random() * 100 + 'vh';
+        flower.style.left = Math.random() * 100 + 'vw';
+        flower.style.width = flowerSize + 'px';
+        flower.style.height = flowerSize + 'px';
+        flower.style.animationDuration = Math.random() * 10 + 5 + 's';
+        flowerContainer.appendChild(flower);
+      }
     });
   </script>
 </head>
 <body>
   <header>
     <nav>
-      <img src="https://example.com/school-logo.png" alt="School Logo">
-      <ul>
+      <img src="https://i.postimg.cc/hv4HC7Gg/Screenshot-2023-06-29-06-08-09-54-99c04817c0de5652397fc8b56c3b3817.png" alt="School Logo">
+      <ul class="nav-list">
         <li><a href="#">首页</a></li>
         <li><a href="#">关于我们</a></li>
         <li><a href="#">学术专业</a></li>
@@ -181,6 +301,7 @@
         <li><a href="#">校园生活</a></li>
         <li><a href="#">联系我们</a></li>
       </ul>
+      <div class="nav-toggle">&#9776;</div>
     </nav>
   </header>
 
@@ -221,28 +342,24 @@
     <section>
       <h1>招生信息</h1>
       <p>欢迎各位有志青年加入山河大学的大家庭！我们提供全日制本科和研究生课程，拥有优秀的师资团队和先进的教学设施。</p>
-      <p>请访问我们的招生页面以获取更多详细信息。</p>
+      <p>请访问我们的招生页面以获取更多信息和申请流程。</p>
     </section>
 
     <section>
       <h1>校园生活</h1>
-      <p>山河大学提供丰富多样的校园生活，包括学生社团、体育活动、文化节等。我们鼓励学生全面发展，积极参与各种活动。</p>
-      <p>在山河大学，你将度过难忘的大学时光，并结识一生的朋友。</p>
+      <p>山河大学提供丰富多样的校园生活体验，包括学生社团、体育俱乐部、文化活动等。我们鼓励学生积极参与并充分发展自己的兴趣爱好。</p>
+      <p>我们的校园环境优美，设有图书馆、体育馆、实验室等现代化设施，为学生提供良好的学习和生活条件。</p>
     </section>
 
     <section>
       <h1>联系我们</h1>
-      <p>如果您有任何疑问或需要进一步了解山河大学，请随时与我们联系。我们的联系方式如下：</p>
-      <ul>
-        <li>电话：123-456-7890</li>
-        <li>电子邮件：info@example.com</li>
-        <li>地址：123 Main Street, City, Country</li>
-      </ul>
+      <p>如果您有任何问题或需要进一步了解山河大学，请随时与我们联系。</p>
+      <p>联系方式：</p>
+      <p>电话：123-456-7890</p>
+      <p>邮箱：info@example.com</p>
     </section>
   </main>
 
-  <footer>
-    &copy; 2023 山河大学. All rights reserved. | Designed by Your Name
-  </footer>
+  <div class="flower"></div>
 </body>
 </html>
