@@ -1,68 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#000000">
-    <meta name="description" content="Web site created using CloudBase Webify">
-    <title>Hello Webify！</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-                sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        code {
-            font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-                monospace;
-        }
-        .App {
-            text-align: center;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>山河大学</title>
+  <style>
+    /* CSS样式 */
 
-        .App-logo {
-            height: 40vmin;
-            pointer-events: none;
-        }
+    /* 小花掉落效果 */
+    @keyframes flowerAnimation {
+      0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 1;
+      }
+    }
 
-        @media (prefers-reduced-motion: no-preference) {
-            .App-logo {
-                animation: App-logo-spin infinite 20s linear;
-            }
-        }
+    /* 页面布局样式 */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .App-header {
-            background-color: #efefef;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-size: calc(10px + 2vmin);
-            color: black;
-        }
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+    }
 
-        .App-link {
-            color: #108ee9;
-        }
-    </style>
+    header {
+      background-color: white;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    nav li {
+      margin-right: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+      font-size: 18px;
+      transition: color 0.3s ease-in-out;
+    }
+
+    nav a:hover {
+      color: yellow;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    section {
+      margin-bottom: 20px;
+    }
+
+    h1, h2 {
+      margin-bottom: 10px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    footer {
+      background-color: #f2f2f2;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .slideshow-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .slideshow {
+      width: 100%;
+      height: auto;
+      overflow: hidden;
+    }
+
+    .slideshow img {
+      width: 100%;
+      height: auto;
+      display: none;
+    }
+
+    .slideshow img.active {
+      display: block;
+    }
+
+    .slideshow-nav {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .slideshow-nav button {
+      background-color: transparent;
+      border: none;
+      margin: 0 5px;
+      padding: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .slideshow-nav button.active {
+      font-weight: bold;
+      background-color: yellow;
+    }
+
+    /* 文字淡入淡出动画效果 */
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+      }
+      45% {
+        opacity: 1;
+      }
+      55% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .slideshow img {
+      animation: fadeInOut 9s linear infinite;
+    }
+
+    .intro {
+      margin-bottom: 20px;
+    }
+
+    /* 小花掉落样式 */
+    .flower {
+      position: absolute;
+      top: -20px;
+      left: calc(50% - 10px);
+      font-size: 20px;
+      animation: flowerAnimation 3s infinite;
+    }
+  </style>
 </head>
-
 <body>
-    <div id="root">
-        <div class="App">
-            <header class="App-header">
-                <img src="https://main.qcloudimg.com/raw/2f3b21706c37e8685efe5c60b26ceb24.png" class="App-logo" alt="logo">
-                <p>Welcome to Webify！</p>
-                <a class="App-link" href="https://webify.cloudbase.net/"
-                    target="_blank" rel="noopener noreferrer">webify.cloudbase.net</a>
-            </header>
-        </div>
-    </div>
-</body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#">首页</a></li>
+        <li><a href="#">关于我们</a></li>
+        <li><a href="#">课程</a></li>
+        <li><a href="#">招生信息</a></li>
+        <li><a href="#">联系我们</a></li>
+      </ul>
+    </nav>
+  </header>
 
+  <main>
+    <div class="slideshow-container">
+      <div class="slideshow">
+        <img class="active" src="image1.jpg" alt="Image 1">
+        <img src="image2.jpg" alt="Image 2">
+        <img src="image3.jpg" alt="Image 3">
+      </div>
+      <div class="slideshow-nav">
+        <button class="active"></button>
+        <button></button>
+        <button></button>
+      </div>
+    </div>
+
+    <section>
+      <div class="intro">
+        <h2>关于我们</h2>
+        <p>山河大学是一所以培养优秀人才为目标的高等教育机构。</p>
+      </div>
+      <h2>课程</h2>
+      <ul>
+        <li>计算机科学</li>
+        <li>人文学</li>
+        <li>商务管理</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>版权所有 &copy; 2023 山河大学</p>
+  </footer>
+
+  <script>
+    // JavaScript代码
+
+    // 创建小花掉落
+    function createFlower() {
+      const flowerChars = ['✿', '❀', '❁'];
+      const flower = document.createElement('span');
+      flower.classList.add('flower');
+      flower.innerText = flowerChars[Math.floor(Math.random() * flowerChars.length)];
+      flower.style.left = Math.random() * 100 + 'vw';
+      document.body.appendChild(flower);
+
+      // 小花掉落结束后移除元素
+      flower.addEventListener('animationend', () => {
+        flower.remove();
+      });
+    }
+
+    // 监听页面滑动事件
+    window.addEventListener('scroll', () => {
+      createFlower();
+    });
+  </script>
+</body>
 </html>
