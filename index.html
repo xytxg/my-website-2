@@ -1,297 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>山河大学</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <title>斌祥繁大学官网</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        #navbar {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        #navbar .logo img {
+            height: 50px; /* 调整校徽logo的高度 */
+        }
+        #navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        #navbar ul li {
+            display: inline-block;
+            margin-left: 10px;
+        }
+        #welcome-section {
+            text-align: center;
+            padding: 50px;
+            background-color: #f9f9f9;
+        }
+        #slideshow {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+        }
+        #slideshow img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #introduction {
+            padding: 50px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .rectangle {
+            width: 300px;
+            height: 200px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            margin: 20px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            text-align: center;
+            padding: 20px;
+        }
+        .rectangle:hover {
+            filter: blur(5px);
+        }
+        #about-section {
+            background-color: #f9f9f9;
+            padding: 50px;
+            text-align: center;
+        }
+        #about-section h2 {
+            margin-bottom: 20px;
+        }
+        #major-section {
+            background-color: #ffffff;
+            padding: 50px;
+            text-align: center;
+        }
+        #major-section h2 {
+            margin-bottom: 20px;
+        }
+        #major-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #major-section ul li {
+            margin-bottom: 10px;
+        }
+        #footer {
+            background-color: #f9f9f9;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        // 自动轮播图
+        var slideIndex = 0;
+        carousel();
 
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f1f1f1;
-      color: #333;
-    }
-
-    header {
-      background-color: #333;
-      padding: 20px;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      margin-right: 20px;
-    }
-
-    .nav-list {
-      list-style: none;
-      display: flex;
-    }
-
-    .nav-list li {
-      margin-right: 10px;
-    }
-
-    .nav-list li a {
-      color: #fff;
-      text-decoration: none;
-      padding: 5px;
-    }
-
-    .nav-toggle {
-      color: #fff;
-      font-size: 24px;
-      cursor: pointer;
-    }
-
-    .slideshow-container {
-      position: relative;
-      margin: 20px 0;
-    }
-
-    .slideshow {
-      display: flex;
-      overflow: hidden;
-    }
-
-    .slideshow img {
-      width: 100%;
-      display: none;
-    }
-
-    .slideshow img.active {
-      display: block;
-    }
-
-    .slideshow-nav {
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
-    }
-
-    .slideshow-nav button {
-      background-color: #ddd;
-      border: none;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin: 0 5px;
-      cursor: pointer;
-    }
-
-    .slideshow-nav button.active {
-      background-color: #333;
-    }
-
-    main {
-      padding: 20px;
-    }
-
-    section {
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      color: #fff;
-    }
-
-    ul {
-      list-style-type: square;
-      margin-left: 20px;
-    }
-
-    .intro {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-    }
-
-    .rectangle {
-      width: 0;
-      height: 20px;
-      background-color: #fff;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation: rectangleAnimation 2s forwards;
-    }
-
-    @keyframes rectangleAnimation {
-      0% {
-        width: 0;
-      }
-      100% {
-        width: 200px;
-      }
-    }
-
-    @media screen and (max-width: 768px) {
-      .nav-list {
-        display: none;
-      }
-
-      .nav-toggle {
-        display: block;
-      }
-
-      .nav-toggle.active {
-        color: #fff;
-      }
-
-      .nav-toggle:before {
-        content: '\2630';
-      }
-
-      .nav-list.active {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 70px;
-        left: 20px;
-        background-color: #333;
-        padding: 10px;
-        width: 100%;
-      }
-
-      .nav-list li {
-        margin-bottom: 10px;
-      }
-
-      .nav-list li a {
-        color: #fff;
-        padding: 0;
-      }
-    }
-  </style>
+        function carousel() {
+            var slides = document.querySelectorAll("#slideshow img");
+            for (var i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            }
+            slides[slideIndex - 1].style.display = "block";
+            setTimeout(carousel, 2000); // 每2秒切换一张图片
+        }
+    </script>
 </head>
 <body>
-  <header>
-    <nav>
-      <div class="logo">
-        <img src="https://i.postimg.cc/hv4HC7Gg/Screenshot-2023-06-29-06-08-09-54-99c04817c0de5652397fc8b56c3b3817.png" alt="School Logo" height="50">
-      </div>
-      <div class="nav-toggle"></div>
-      <ul class="nav-list">
-        <li><a href="#">首页</a></li>
-        <li><a href="#">关于我们</a></li>
-        <li><a href="#">学术课程</a></li>
-        <li><a href="#">招生信息</a></li>
-        <li><a href="#">校园生活</a></li>
-        <li><a href="#">联系我们</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section>
-      <h1>欢迎来到山河大学</h1>
-      <div class="slideshow-container">
-        <div class="slideshow">
-          <img src="https://i.postimg.cc/jdcdMs3s/e127ce7d96814754b39c5f4145fa36d7.png" alt="Slide 1" class="active">
-          <img src="https://i.postimg.cc/R0y0wXsK/7594f248e80bec72.jpg" alt="Slide 2">
-          <img src="https://i.postimg.cc/ZK8y4tfg/85934af14668407191be5f05c729190e.jpg" alt="Slide 3">
+    <div id="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="https://i.postimg.cc/rz2pMgPb/Screenshot-2023-06-29-22-58-40-99-40deb401b9ffe8e1df2f1cc5ba480b12.jpg">
         </div>
-        <div class="slideshow-nav">
-          <button class="active"></button>
-          <button></button>
-          <button></button>
+        <ul>
+            <li><a href="#">首页</a></li>
+            <li><a href="#">关于我们</a></li>
+            <li><a href="#">课程</a></li>
+            <li><a href="#">招生</a></li>
+            <li><a href="#">联系我们</a></li>
+        </ul>
+        <button id="menu-btn">菜单</button>
+    </div>
+    
+    <div id="welcome-section">
+        <h1>欢迎来到斌祥繁大学</h1>
+    </div>
+    
+    <div id="slideshow">
+        <img src="https://i.postimg.cc/QNQkwMn6/467d625cc05247259079a97424ee0a6f-th.jpg" alt="Slide 1">
+        <img src="https://i.postimg.cc/MTyRCstc/a0c30741edd26cd2.jpg" alt="Slide 2">
+        <img src="https://i.postimg.cc/R0tntPkP/626f7b3b9c6971e4.jpg" alt="Slide 3">
+    </div>
+    
+    <div id="introduction">
+        <div class="rectangle">
+            <h3>学校概况</h3>
+            <p>斌祥繁大学是一由斌祥繁于2023年6月29日创立的力于培养优秀人才的综合性大学。</p>
         </div>
-      </div>
-    </section>
+        <div class="rectangle">
+            <h3>校园环境</h3>
+            <p>斌祥繁大学拥有美丽宜人的校园环境，为学生提供良好的学习氛围。</p>
+        </div>
+        <div class="rectangle">
+            <h3>教学质        <h3>教学质量</h3>
+        <p>斌祥繁大学注重教学质量，致力于提供优秀的教育资源和师资力量。</p>
+    </div>
+</div>
 
-    <section>
-      <h1>关于我们</h1>
-      <div class="intro">
-        <p>山河大学是一所优秀的学府，致力于提供高质量的教育和培养杰出的人才。我们的教师团队由一流的学者和行业专家组成，为学生提供丰富的学术资源和实践机会。</p>
-        <p>学术课程设置广泛，涵盖文科、理科、商科等多个领域。我们注重培养学生的创新能力、团队合作精神和社会责任感。</p>
-      </div>
-    </section>
+<div id="about-section">
+    <h2>关于我们</h2>
+    <p>斌祥繁大学成立于2023年6月29日，是一所富有创新精神和国际视野的高等教育机构。我们致力于培养学生的综合素质和专业技能，为社会发展做出积极贡献。</p>
+</div>
 
-    <section>
-      <h1>学术课程</h1>
-      <ul>
-        <li>计算机科学</li>
-        <li>工程学</li>
-        <li>艺术与设计</li>
-        <li>商业管理</li>
-        <li>生命科学</li>
-      </ul>
-    </section>
+<div id="major-section">
+    <h2>专业</h2>
+    <ul>
+        <li>计算机科学与技术</li>
+        <li>工商管理</li>
+        <li>生物医学工程</li>
+        <li>化学工程</li>
+        <!-- 添加更多专业 -->
+    </ul>
+</div>
 
-    <section>
-      <h1>招生信息</h1>
-      <p>山河大学欢迎优秀的学生加入我们的大家庭。我们提供多个专业的招生项目，招收全球范围内的学生。</p>
-      <p>请访问我们的网站了解更多信息和申请流程。</p>
-    </section>
-
-    <section>
-      <h1>校园生活</h1>
-      <p>山河大学提供丰富多彩的校园生活。学生可以参加各种社团活动、运动赛事和艺术表演。</p>
-      <p>我们的校园设施现代化，包括图书馆、实验室、运动场和学生宿舍。</p>
-    </section>
-
-    <section>
-      <h1>联系我们</h1>
-      <p>如果您对山河大学有任何疑问或需要进一步了解，可以通过以下方式联系我们：</p>
-      <ul>
-        <li>电话：123-456-7890</li>
-        <li>电子邮件：info@example.com</li>
-        <li>地址：123 Main Street, City, Country</li>
-      </ul>
-    </section>
-  </main>
-
-  <script>
-    const navToggle = document.querySelector('.nav-toggle');
-    const navList = document.querySelector('.nav-list');
-
-    navToggle.addEventListener('click', () => {
-      navToggle.classList.toggle('active');
-      navList.classList.toggle('active');
-    });
-
-    const slides = document.querySelectorAll('.slideshow img');
-    const slideNavButtons = document.querySelectorAll('.slideshow-nav button');
-
-    let currentIndex = 0;
-
-    function showSlide(index) {
-      slides.forEach((slide) => {
-        slide.classList.remove('active');
-      });
-
-      slideNavButtons.forEach((button) => {
-        button.classList.remove('active');
-      });
-
-      slides[index].classList.add('active');
-      slideNavButtons[index].classList.add('active');
-    }
-
-    function nextSlide() {
-      currentIndex = (currentIndex + 1) % slides.length;
-      showSlide(currentIndex);
-    }
-
-    slideNavButtons.forEach((button, index) => {
-      button.addEventListener('click', () => {
-        showSlide(index);
-      });
-    });
-
-    setInterval(nextSlide, 3000);
-  </script>
+<div id="footer">
+    <p>版权©️归斌祥繁大学所有</p>
+</div>
 </body>
 </html>
+
