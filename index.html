@@ -2,72 +2,190 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>手机游戏</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>飞行射击游戏</title>
   <style>
     body {
-      background-color: #f1f1f1;
-      font-family: Arial, sans-serif;
+      background-color: #000;
       margin: 0;
       padding: 0;
     }
-    
+
     #game-container {
       width: 100%;
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-    
-    #game-header {
-      background-color: #333;
-      color: #fff;
-      padding: 10px;
-      text-align: center;
-    }
-    
+
     #game-content {
-      padding: 20px;
-      text-align: center;
+      position: relative;
     }
-    
-    #game-buttons {
+
+    #player {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 50px;
+      background-color: #fff;
+      border-radius: 50%;
+    }
+
+    .enemy {
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 30px;
+      background-color: #ff0000;
+      border-radius: 50%;
+    }
+
+    .bullet {
+      position: absolute;
+      top: 80%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 5px;
+      height: 20px;
+      background-color: #00ff00;
+    }
+
+    #controls {
+      display: flex;
+      justify-content: center;
       margin-top: 20px;
-      text-align: center;
     }
-    
-    .game-button {
+
+    .control-button {
       display: inline-block;
-      padding: 10px 20px;
+      width: 60px;
+      height: 60px;
       background-color: #007bff;
       color: #fff;
-      text-decoration: none;
-      border-radius: 4px;
-      margin-right: 10px;
-    }
-    
-    .game-button:hover {
-      background-color: #0056b3;
+      font-size: 24px;
+      text-align: center;
+      line-height: 60px;
+      border-radius: 50%;
+      margin: 0 10px;
     }
   </style>
 </head>
 <body>
   <div id="game-container">
-    <div id="game-header">
-      <h1>手机游戏</h1>
-    </div>
     <div id="game-content">
-      <h2>游戏内容</h2>
-      <!-- 游戏内容放置区域 -->
+      <div id="player"></div>
+      <!-- 敌人和子弹元素在JavaScript中动态添加 -->
     </div>
-    <div id="game-buttons">
-      <a class="game-button" href="#">按钮1</a>
-      <a class="game-button" href="#">按钮2</a>
-      <a class="game-button" href="#">按钮3</a>
+    <div id="controls">
+      <button class="control-button" id="left">←</button>
+      <button class="control-button" id="fire">Fire</button>
+      <button class="control-button" id="right">→</button>
     </div>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const gameContent = document.getElementById("game-content");
+      const player = document.getElementById("player");
+      const controls = {
+        left: document.getElementById("left"),
+        fire: document.getElementById("fire"),
+        right: document.getElementById("right")
+      };
+
+      let isMovingLeft = false;
+      let isMovingRight = false;
+
+      // 监听触摸事件，控制玩家飞船左右移动
+      controls.left.addEventListener("touchstart", function() {
+        isMovingLeft = true;
+      });
+
+      controls.left.addEventListener("touchend", function() {
+        isMovingLeft = false;
+      });
+
+      controls.right.addEventListener("touchstart", function() {
+        isMovingRight = true;
+      });
+
+      controls.right.addEventListener("touchend", function() {
+        isMovingRight = false;
+      });
+
+      // 监听点击事件，发射子弹
+      controls.fire.addEventListener("click", function() {
+        createBullet();
+      });
+
+      // 创建敌人
+      function createEnemy() {
+        const enemy = document.createElement("div");
+        enemy.className = "enemy";
+        enemy.style.left = Math.random() * 90 + 5 + "%";
+        gameContent.appendChild(enemy);
+
+        const animation = enemy.animate([
+          { top: "-50px" },
+          { top: "110vh" }
+        ], {
+          duration: 3000,
+          iterations: 1
+        });
+
+        animation.onfinish = function() {
+          enemy.remove();
+        };
+      }
+
+      // 创建子弹
+      function createBullet() {
+        const bullet = document.createElement("div");
+        bullet.className = "bullet";
+        bullet.style.left = player.offsetLeft + player.offsetWidth / 2 + "px";
+        gameContent.appendChild(bullet);
+
+        const animation = bullet.animate([
+          { top: "80%" },
+          { top: "-10px" }
+        ], {
+          duration: 1000,
+          iterations: 1
+        });
+
+        animation.onfinish = function() {
+          bullet.remove();
+        };
+      }
+
+      // 更新玩家飞船位置
+      function updatePlayerPosition() {
+        const currentPosition = player.offsetLeft;
+        const containerWidth = gameContent.offsetWidth;
+        const playerWidth = player.offsetWidth;
+        const step = 10;
+
+        if (isMovingLeft && currentPosition > step) {
+          player.style.left = currentPosition - step + "px";
+        }
+
+        if (isMovingRight && currentPosition + playerWidth + step < containerWidth) {
+          player.style.left = currentPosition + step + "px";
+        }
+      }
+
+      // 定时创建敌人
+      setInterval(createEnemy, 2000);
+
+      // 定时更新玩家飞船位置
+      setInterval(updatePlayerPosition, 50);
+    });
+  </script>
 </body>
 </html>
