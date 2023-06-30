@@ -1,100 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>迷宫游戏</title>
-    <style>
-        .maze {
-            width: 400px;
-            height: 400px;
-            border: 2px solid black;
-            display: grid;
-            grid-template-columns: repeat(20, 1fr);
-        }
-        
-        .cell {
-            border: 1px solid gray;
-        }
-        
-        .player {
-            background-color: red;
-        }
-        
-        .exit {
-            background-color: green;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>手机游戏</title>
+  <style>
+    body {
+      background-color: #f1f1f1;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    #game-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    #game-header {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+    
+    #game-content {
+      padding: 20px;
+      text-align: center;
+    }
+    
+    #game-buttons {
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+    .game-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      margin-right: 10px;
+    }
+    
+    .game-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-    <h1>迷宫游戏</h1>
-    <div class="maze"></div>
-    <script>
-        const maze = document.querySelector('.maze');
-        const cells = [];
-        const gridSize = 20;
-        let playerPosition = { x: 0, y: 0 };
-        const exitPosition = { x: gridSize - 1, y: gridSize - 1 };
-        
-        function createMaze() {
-            for (let y = 0; y < gridSize; y++) {
-                for (let x = 0; x < gridSize; x++) {
-                    const cell = document.createElement('div');
-                    cell.classList.add('cell');
-                    maze.appendChild(cell);
-                    cells.push(cell);
-                }
-            }
-            
-            cells[getIndex(playerPosition.x, playerPosition.y)].classList.add('player');
-            cells[getIndex(exitPosition.x, exitPosition.y)].classList.add('exit');
-            
-            document.addEventListener('keydown', movePlayer);
-        }
-        
-        function movePlayer(event) {
-            const key = event.key;
-            let newPosition = { x: playerPosition.x, y: playerPosition.y };
-            
-            switch (key) {
-                case 'ArrowUp':
-                    newPosition.y--;
-                    break;
-                case 'ArrowDown':
-                    newPosition.y++;
-                    break;
-                case 'ArrowLeft':
-                    newPosition.x--;
-                    break;
-                case 'ArrowRight':
-                    newPosition.x++;
-                    break;
-                default:
-                    return;
-            }
-            
-            if (isValidMove(newPosition.x, newPosition.y)) {
-                cells[getIndex(playerPosition.x, playerPosition.y)].classList.remove('player');
-                playerPosition = newPosition;
-                cells[getIndex(playerPosition.x, playerPosition.y)].classList.add('player');
-                
-                if (playerPosition.x === exitPosition.x && playerPosition.y === exitPosition.y) {
-                    alert('你赢了！');
-                }
-            }
-        }
-        
-        function isValidMove(x, y) {
-            if (x < 0 || x >= gridSize || y < 0 || y >= gridSize) {
-                return false;
-            }
-            
-            return true;
-        }
-        
-        function getIndex(x, y) {
-            return x + (y * gridSize);
-        }
-        
-        createMaze();
-    </script>
+  <div id="game-container">
+    <div id="game-header">
+      <h1>手机游戏</h1>
+    </div>
+    <div id="game-content">
+      <h2>游戏内容</h2>
+      <!-- 游戏内容放置区域 -->
+    </div>
+    <div id="game-buttons">
+      <a class="game-button" href="#">按钮1</a>
+      <a class="game-button" href="#">按钮2</a>
+      <a class="game-button" href="#">按钮3</a>
+    </div>
+  </div>
 </body>
 </html>
