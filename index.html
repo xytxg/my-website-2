@@ -9,18 +9,12 @@
       background-color: #000;
       margin: 0;
       padding: 0;
+      overflow: hidden;
     }
 
     #game-container {
       width: 100%;
       height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #game-content {
       position: relative;
     }
 
@@ -48,18 +42,18 @@
 
     .bullet {
       position: absolute;
-      top: 80%;
-      left: 50%;
-      transform: translateX(-50%);
       width: 5px;
       height: 20px;
       background-color: #00ff00;
     }
 
     #controls {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       justify-content: center;
-      margin-top: 20px;
     }
 
     .control-button {
@@ -78,44 +72,43 @@
 </head>
 <body>
   <div id="game-container">
-    <div id="game-content">
-      <div id="player"></div>
-      <!-- 敌人和子弹元素在JavaScript中动态添加 -->
-    </div>
-    <div id="controls">
-      <button class="control-button" id="left">←</button>
-      <button class="control-button" id="fire">Fire</button>
-      <button class="control-button" id="right">→</button>
-    </div>
+    <div id="player"></div>
+    <!-- 敌人、子弹和道具元素在JavaScript中动态添加 -->
+  </div>
+
+  <div id="controls">
+    <button class="control-button" id="move-left">&#8592;</button>
+    <button class="control-button" id="fire">Fire</button>
+    <button class="control-button" id="move-right">&#8594;</button>
   </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      const gameContent = document.getElementById("game-content");
+      const gameContainer = document.getElementById("game-container");
       const player = document.getElementById("player");
       const controls = {
-        left: document.getElementById("left"),
-        fire: document.getElementById("fire"),
-        right: document.getElementById("right")
+        moveLeft: document.getElementById("move-left"),
+        moveRight: document.getElementById("move-right"),
+        fire: document.getElementById("fire")
       };
 
       let isMovingLeft = false;
       let isMovingRight = false;
 
       // 监听触摸事件，控制玩家飞船左右移动
-      controls.left.addEventListener("touchstart", function() {
+      controls.moveLeft.addEventListener("touchstart", function() {
         isMovingLeft = true;
       });
 
-      controls.left.addEventListener("touchend", function() {
+      controls.moveLeft.addEventListener("touchend", function() {
         isMovingLeft = false;
       });
 
-      controls.right.addEventListener("touchstart", function() {
+      controls.moveRight.addEventListener("touchstart", function() {
         isMovingRight = true;
       });
 
-      controls.right.addEventListener("touchend", function() {
+      controls.moveRight.addEventListener("touchend", function() {
         isMovingRight = false;
       });
 
@@ -129,7 +122,7 @@
         const enemy = document.createElement("div");
         enemy.className = "enemy";
         enemy.style.left = Math.random() * 90 + 5 + "%";
-        gameContent.appendChild(enemy);
+        gameContainer.appendChild(enemy);
 
         const animation = enemy.animate([
           { top: "-50px" },
@@ -149,7 +142,7 @@
         const bullet = document.createElement("div");
         bullet.className = "bullet";
         bullet.style.left = player.offsetLeft + player.offsetWidth / 2 + "px";
-        gameContent.appendChild(bullet);
+        gameContainer.appendChild(bullet);
 
         const animation = bullet.animate([
           { top: "80%" },
@@ -167,7 +160,7 @@
       // 更新玩家飞船位置
       function updatePlayerPosition() {
         const currentPosition = player.offsetLeft;
-        const containerWidth = gameContent.offsetWidth;
+        const containerWidth = gameContainer.offsetWidth;
         const playerWidth = player.offsetWidth;
         const step = 10;
 
